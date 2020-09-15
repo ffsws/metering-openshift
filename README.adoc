@@ -16,4 +16,6 @@ The following work is based on OpenShift Metering operator (tested on OpenShift 
 
 5. You could also instruct metering operator to run hourly report. Refer to report-hourly.yaml file to change the start time. Then run "oc create -f report-hourly.yaml" command. Report wont be executed immediately. Check in 1 hour time.
 
-6. To download the report, change the DOMAIN_NAME in the following url - https://metering-openshift-metering.DOMAIN_NAME/api/v1/reports/get?name=custom-role-node-cpu-capacity-lables-immediate&namespace=openshift-metering&format=csv
+6. To download the result after executing report-immediate.yaml file, change the DOMAIN_NAME in the following url - https://metering-openshift-metering.DOMAIN_NAME/api/v1/reports/get?name=custom-role-node-cpu-capacity-lables-immediate&namespace=openshift-metering&format=csv
+
+7. To download the result after executing report-hourly.yaml file, change the DOMAIN_NAME in the following url - https://metering-openshift-metering.DOMAIN_NAME/api/v1/reports/get?name=custom-role-node-cpu-capacity-hourly&namespace=openshift-metering&format=csv
