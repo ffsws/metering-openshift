@@ -1,0 +1,50 @@
+apiVersion: metering.openshift.io/v1
+kind: ReportQuery
+metadata:
+  labels:
+    operator-metering: "true"
+  name: custom-role-node-cpu-capacity-raw
+spec:
+  columns:
+  - name: node
+    type: varchar
+    unit: kubernetes_node
+  - name: labels
+    tableHidden: true
+    type: map<varchar, varchar>
+  - name: node_capacity_cpu_cores
+    type: double
+    unit: cpu_cores
+  - name: resource_id
+    type: varchar
+  - name: timeprecision
+    type: double
+    unit: seconds
+  - name: node_capacity_cpu_core_seconds
+    type: double
+    unit: cpu_core_seconds
+  - name: timestamp
+    type: timestamp
+    unit: date
+  - name: dt
+    type: varchar
+  inputs:
+  - default: custom-role-node-capacity-cpu-cores
+    name: CustomRoleNodeCapacityCpuCoresDataSourceName
+    type: ReportDataSource
+  query: |
+    SELECT labels['node'] as node,
+        labels,
+        amount as node_capacity_cpu_cores,
+        CASE
+          WHEN split_part(element_at(labels, 'provider_id'), ':///', 1) = 'aws'
+            THEN split_part(split_part(element_at(labels, 'provider_id'), ':///', 2), '/', 2)
+          WHEN split_part(element_at(labels, 'provider_id'), ':///', 1) = 'azure'
+            THEN split_part(split_part(element_at(labels, 'provider_id'), ':///', 2), '/', 8)
+          ELSE split_part(split_part(element_at(labels, 'provider_id'), ':///', 2), '/', 2)
+        END as resource_id,
+        timeprecision,
+        amount * timeprecision as node_capacity_cpu_core_seconds,
+        "timestamp",
+        dt
+    FROM {| dataSourceTableName .Report.Inputs.CustomRoleNodeCapacityCpuCoresDataSourceName |}

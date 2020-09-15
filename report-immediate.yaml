@@ -1,0 +1,10 @@
+apiVersion: metering.openshift.io/v1
+kind: Report
+metadata:
+  name: custom-role-node-cpu-capacity-lables-immediate
+  namespace: openshift-metering
+spec:
+  query: custom-role-node-cpu-capacity-labels
+  reportingStart: "2020-09-15T00:00:00Z"
+  reportingEnd: "2020-09-30T00:00:00Z"
+  runImmediately: true

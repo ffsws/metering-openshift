@@ -1,0 +1,9 @@
+apiVersion: metering.openshift.io/v1
+kind: ReportDataSource
+metadata:
+  labels:
+    operator-metering: "true"
+  name: custom-role-node-cpu-capacity-raw
+spec:
+  reportQueryView:
+    queryName: custom-role-node-cpu-capacity-raw
