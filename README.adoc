@@ -1,1 +1,17 @@
-# metering-openshift
+= Metering node usage in OpenShift for custom node labels
+
+Many times there is a requirement to measure worker node usage for internal chargeback. Customers can shut down the nodes on weekends, spin up dedicated nodes for specific teams, etc and therefore needs a mechanism to measure the node usage.
+
+The following work is based on OpenShift Metering operator (tested on OpenShift 4.3, 4.4 and 4.5). Once the operator is installed and metering configuration is updated, then users can follow the below scripts to create metered report on nodes that are labeled.
+
+==== Solution
+
+1. We are assuming that node will be labeled with key as "node_lob". If you labeled it with some other key, then you need to make appropriate changes in the yaml file(s). 
+
+2. rds-custom-node-capacity-cpu-cores.yaml file has the prometheus query that is used to fetch data on the node from prometheus instance running on OpenShift.
+
+3. Run "sh create_cr.sh" to execute all yaml files. You need to create these resources in "openshift-metering" project.
+
+4. To run an immediate report, you may want to edit report-immediate.yaml file and set the right start and end times. Then run "oc create -f report-immediate.yaml" command.
+
+5. You could also instruct metering operator to run hourly report. Refer to report-hourly.yaml file to change the start time. Then run "oc create -f report-hourly.yaml" command. Report wont be executed immediately. Check in 1 hour time.
