@@ -1,5 +1,8 @@
 = Metering node usage in OpenShift for custom node labels
 
+Relevant blog for this is posted here
+https://www.openshift.com/blog/writing-customized-reports-using-metering-operator
+
 Many times there is a requirement to measure worker node usage for internal chargeback. Customers can shut down the nodes on weekends, spin up dedicated nodes for specific teams, etc and therefore needs a mechanism to measure the node usage.
 
 The following work is based on OpenShift Metering operator (tested on OpenShift 4.3, 4.4 and 4.5). Once the operator is installed and metering configuration is updated, then users can follow the below scripts to create metered report on nodes that are labeled.
